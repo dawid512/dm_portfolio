@@ -1,1 +1,52 @@
 /* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+// html, body {
+//     margin: 0;
+//     padding: 0;
+//     height: 100%;
+//     background: linear-gradient(177deg, #100E24 0%, #030211 190%);
+//   }
+  
+
+  
+
+  mat-drawer-container,
+  mat-drawer{
+    background-color: transparent !important;
+  }
+
+  
+  // app-home,
+  // app-experience,
+  // app-techstack,
+  // app-contact {
+  //   height: 100vh;
+  //   width: 100%;
+  //   padding: 20px;
+  //   box-sizing: border-box;
+  // }
+  
+  app-home {
+    // background: #333;
+    // background-color: #333;
+
+  }
+  
+  app-experience {
+    // background: #ffffff;
+  }
+  
+  app-techstack {
+    // background: #f0f0f0;
+  }
+  
+  app-contact {
+    // background: #e0e0e0;
+  }

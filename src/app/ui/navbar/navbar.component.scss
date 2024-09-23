@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.navbar{
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+/* Ustawienia dla każdego linku w navbar */
+.nav-link {
+  padding: 10px 30px;
+  position: relative;
+  display: flex;
+  font-size: 18px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--px-white);
+  opacity: .85;  
+  &:hover {
+    color: theme('colors.pink.500'); /* Zmieniamy kolor na różowy podczas hover */
+  }
+
+  /* Pseudo-element ::after dla podświetlenia */
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0; /* Umieszcza podświetlenie po prawej stronie */
+    width: 0;
+    height: 3px;
+    background: linear-gradient(270.16deg, theme('colors.pink.500') 33.61%, rgba(175, 38, 118, 0) 92.05%);
+    transition: width 0.35s ease;
+  }
+
+  /* Dla aktywnego linku pseudo-element ::after ma szerokość 65px */
+  &.active::after {
+    width: 65px;
+  }
+
+  &.active {
+    font-weight: bold; /* Zwiększamy wagę czcionki dla aktywnego elementu */
+    color: theme('colors.pink.500'); /* Używamy koloru różowego dla aktywnego linku */
+  }
+}
+
+/* Ustawienia dla kontenera navbar */
+nav {
+  height: 100vh; /* Cała wysokość strony */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
