@@ -1,7 +1,20 @@
 <section class="bg-slate-200 dark:bg-slate-700">
+  <section class="navbar bg-gray-100 dark:bg-slate-900  flex items-center justify-between p-4">
+    <div class="text-lg font-bold uppercase text-gray-800 dark:text-gray-200">
+      Dawid Medrala
+    </div>
+    <div>
+      <button class="text-2xl material-icons" (click)="toggleDrawer()">
+        {{ isDrawerOpen ? 'close' : 'menu' }}
+      </button>
+    </div>
+  </section>  
   <mat-drawer-container>
-    <mat-drawer class="site-map" #sidenav mode="side" opened="true">
-      <app-navbar [darkMode]="darkMode" [activeSection]="activeSection"></app-navbar>
+    <mat-drawer class="site-map" #sidenav mode="side" [opened]="isDrawerOpen">
+      <app-navbar
+        [darkMode]="darkMode"
+        [activeSections]="activeSections"
+      ></app-navbar>
     </mat-drawer>
     <main class="content">
       <section id="home" class="section h-screen">

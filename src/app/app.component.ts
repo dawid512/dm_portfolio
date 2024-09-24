@@ -24,39 +24,57 @@ export class AppComponent implements OnInit{
     return this.darkMode();
   }
 
-  // Śledzenie aktywnej sekcji
-  // public activeSection: WritableSignal<string> = signal<string>('home'); // Domyślna sekcja "home"
-
   constructor() {
     effect(() => {
       window.localStorage.setItem('darkMode', JSON.stringify(this.darkMode()));
     });
   }
 
-  public activeSection: WritableSignal<string> = signal<string>('home');
+  public activeSections: WritableSignal<string[]> = signal<string[]>(['home']); // default "home"
 
-  ngOnInit() {
-    this.checkVisibleSection();
-    window.addEventListener('scroll', this.checkVisibleSection.bind(this)); // Dodajemy event listener na scroll
+  public ngOnInit() {
+    window.addEventListener('scroll', this.checkVisibleSections.bind(this));
+    this.checkScreenWidth();
+    window.addEventListener('resize', () => this.checkScreenWidth());
   }
 
-  // Metoda do sprawdzania, która sekcja jest widoczna na ekranie
-  checkVisibleSection() {
-    const sections = ['home', 'experience', 'techstack', 'contact']; // Lista sekcji z ich ID
+  public isDrawerOpen: boolean = false;
 
-    let mostVisibleSection = sections[0]; // Domyślnie home jako aktywna
+  public toggleDrawer() {
+    this.isDrawerOpen = !this.isDrawerOpen;
+  }
+
+  private checkScreenWidth() : void {
+    const screenWidth = window.innerWidth;
+    
+    if (screenWidth < 1200) {
+      this.isDrawerOpen = false;
+    } else {
+      this.isDrawerOpen = true;
+    }
+  }
+
+  private checkVisibleSections() {
+    const sections = ['home', 'experience', 'techstack', 'contact'];
+    const visibleSections: string[] = [];
 
     sections.forEach((id) => {
       const section = document.getElementById(id) as HTMLElement;
-      const rect = section.getBoundingClientRect();
 
-      // Sprawdzamy, czy sekcja jest widoczna (więcej niż 50% wysokości na ekranie)
-      if (rect.top >= 0 && rect.top < window.innerHeight / 2) {
-        mostVisibleSection = id;
+      if (section) {
+        const rect = section.getBoundingClientRect();
+
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          visibleSections.push(id);
+        }
       }
     });
 
-    this.activeSection.set(mostVisibleSection); // Ustawiamy najbardziej widoczną sekcję jako aktywną
-    console.log('Most visible section:', mostVisibleSection); // Dla debugowania
+    if (visibleSections.length > 2) {
+      this.activeSections.set(visibleSections.slice(0, 2));
+    } else {
+      this.activeSections.set(visibleSections);
+    }
+
   }
 }
