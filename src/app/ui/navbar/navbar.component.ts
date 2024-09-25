@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, ViewChild, WritableSignal } from '@angular/core';
-import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
+import { Component, Input, WritableSignal } from '@angular/core';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 
@@ -12,10 +12,10 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
-  @Input() darkMode!: WritableSignal<boolean>;
-  @Input() activeSections!: WritableSignal<string[]>;
+  @Input() public darkMode!: WritableSignal<boolean>;
+  @Input() public activeSections!: WritableSignal<string[]>;
   
-  public toggleDarkMode() {
+  public toggleDarkMode(): void {
     this.darkMode.set(!this.darkMode());
   }
 }

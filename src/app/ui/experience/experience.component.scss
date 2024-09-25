@@ -1,0 +1,63 @@
+.experience {
+  .custom-timeline {
+    position: relative;
+
+    .p-timeline .p-timeline-events {
+      position: relative;
+    }
+
+    .p-timeline .p-timeline-events::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: calc(100% - 20px);
+      z-index: 0;
+      background-color: theme('colors.pink.500');
+    }
+
+    .timeline-content {
+      margin-bottom: 1rem;
+      background-color: theme('colors.white');
+      @apply dark:bg-gray-800 dark:text-white p-4 rounded-md shadow-lg transition-opacity duration-700 ease-in-out transform relative z-10;
+      transition:
+        opacity 0.6s ease-out,
+        transform 0.6s ease-out;
+      will-change: opacity, transform;
+    }
+
+    @media (max-width: 800px) {
+      .p-timeline .p-timeline-events::before {
+        left: 0;
+        transform: none;
+      }
+
+      .p-timeline .p-timeline-event-opposite {
+        display: none;
+        min-width: 0;
+        flex: revert;
+      }
+    }
+  }
+}
+
+::ng-deep {
+  .p-timeline-event-connector {
+    background-color: #d1d5db;
+    width: 2px;
+    margin: 10px 0;
+
+    @media (prefers-color-scheme: dark) {
+      background-color: #f472b6;
+    }
+  }
+
+  .p-timeline-event-opposite {
+    @media (max-width: 800px) {
+      min-width: 0 !important;
+      flex: revert !important;
+    }
+  }
+}

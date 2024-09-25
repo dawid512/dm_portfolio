@@ -1,6 +1,51 @@
+<section class="experience">
+  <div class="text-center my-10">
+    <h2
+      class="text-5xl font-extrabold text-gray-800 dark:text-white mb-2 uppercase"
+    >
+      My Experience
+    </h2>
+    <p class="text-lg italic text-gray-600 dark:text-gray-300">
+      "What I have done so far"
+    </p>
+  </div>
 
-<section class="experience h-screen">
+  <p-timeline
+    [value]="experiences"
+    [align]="isSmallScreen() ? 'right' : 'alternate'"
+    class="custom-timeline"
+  >
+    <ng-template pTemplate="content" let-experience>
+      <div
+        class="timeline-content p-4 bg-white dark:bg-gray-800 rounded-md shadow-lg"
+        #timelineItem
+      >
+        <div
+          class="experience-date block md:hidden text-xs text-gray-500 dark:text-gray-400 mb-2"
+        >
+          {{ experience.startDate }} - {{ experience.endDate }}
+        </div>
+        <h3 class="text-2xl font-extrabold text-pink-500">
+          {{ experience.position }}
+        </h3>
+        <h4 class="text-lg font-bold text-gray-800 dark:text-white">
+          {{ experience.companyName }}
+        </h4>
+        <p class="text-sm text-gray-600 dark:text-gray-300 whitespace-pre-line" [innerHTML]="experience.description">
+        </p>
+      </div>
+    </ng-template>
 
-    <p>experience works!</p>
+    <ng-template pTemplate="opposite" *ngIf="!isSmallScreen()" let-experience>
+      <div
+        class="timeline-date hidden md:block text-xs text-gray-500 dark:text-gray-400"
+      >
+        {{ experience.startDate }} - {{ experience.endDate }}
+      </div>
+    </ng-template>
+    <ng-template pTemplate="marker" let-experience>
+        <mat-icon class="text-pink-500">badge</mat-icon>
+      </ng-template>
+      
+  </p-timeline>
 </section>
-    

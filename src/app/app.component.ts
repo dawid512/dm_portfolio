@@ -1,4 +1,4 @@
-import { Component, effect, HostBinding, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, effect, HostBinding, HostListener, OnInit, signal, WritableSignal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NavbarComponent } from "./ui/navbar/navbar.component";
 import { ContactComponent } from "./ui/contact/contact.component";
@@ -6,6 +6,7 @@ import { TechstackComponent } from "./ui/techstack/techstack.component";
 import { ExperienceComponent } from "./ui/experience/experience.component";
 import { HomeComponent } from "./ui/home/home.component";
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-root',
@@ -15,16 +16,19 @@ import { MatSidenavModule } from '@angular/material/sidenav';
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit{
-  title = 'dm_portfolio';
+  public title = 'dm_portfolio';
+
+  public drawerMode: 'over' | 'side' = 'side';
 
   public darkMode: WritableSignal<boolean> = signal<boolean>(
     JSON.parse(window.localStorage.getItem('darkMode') ?? 'false')
   );
-  @HostBinding('class.dark') get mode() {
+
+  @HostBinding('class.dark') public get mode(): boolean {
     return this.darkMode();
   }
 
-  constructor() {
+  constructor(private breakpointObserver: BreakpointObserver) {
     effect(() => {
       window.localStorage.setItem('darkMode', JSON.stringify(this.darkMode()));
     });
@@ -32,29 +36,28 @@ export class AppComponent implements OnInit{
 
   public activeSections: WritableSignal<string[]> = signal<string[]>(['home']); // default "home"
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     window.addEventListener('scroll', this.checkVisibleSections.bind(this));
     this.checkScreenWidth();
     window.addEventListener('resize', () => this.checkScreenWidth());
+
+    this.breakpointObserver.observe([Breakpoints.Handset])
+      .subscribe(result => {
+        this.drawerMode = result.matches ? 'over' : 'side';
+      });
   }
 
   public isDrawerOpen: boolean = false;
 
-  public toggleDrawer() {
+  public toggleDrawer(): void {
     this.isDrawerOpen = !this.isDrawerOpen;
   }
 
-  private checkScreenWidth() : void {
-    const screenWidth = window.innerWidth;
-    
-    if (screenWidth < 1200) {
-      this.isDrawerOpen = false;
-    } else {
-      this.isDrawerOpen = true;
-    }
+  private checkScreenWidth() : void {    
+    window.innerWidth < 1200 ? this.isDrawerOpen = false : this.isDrawerOpen = true
   }
 
-  private checkVisibleSections() {
+  private checkVisibleSections() : void {
     const sections = ['home', 'experience', 'techstack', 'contact'];
     const visibleSections: string[] = [];
 
